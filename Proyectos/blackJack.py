@@ -29,14 +29,14 @@ def SumaTotal(cartas, mazo):
 
     total = 0
     for valor in listaValores:
-        if 11 in listaValores and (total + valor > 21):
+        if 11 in set(listaValores) and (total + valor > 21):
             esAz = lambda carta: carta == 11
             aces = [carta for carta in listaValores if esAz(carta)]
             resto = [carta for carta in listaValores if not esAz(carta)]
 
             subTotal = sum(resto)
 
-            for i in range(len(aces)):
+            for aces in range(len(aces)):
                 if subTotal + 11 <= 21:
                     subTotal += 11
                 else:
@@ -50,9 +50,21 @@ def SumaTotal(cartas, mazo):
                 if carta[0] == "A":
                     return True
             return False
-    
 
     return total  
 
 
-  
+def PedirCarta(jugador):
+    quiereOtra = input("Queres otra carta?: s/n ")
+    if quiereOtra == "s":
+        RepatirCartaJugador(jugador)
+        
+    else: 
+        pass
+
+
+jugador = ["3♣","4♣"]
+print("antes de pedir: ",jugador)
+PedirCarta(jugador)
+print("desdpues de pedir: ",jugador)
+print(SumaTotal(jugador, mazo))
