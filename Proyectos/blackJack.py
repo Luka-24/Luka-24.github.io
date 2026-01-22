@@ -53,7 +53,6 @@ def SumaTotal(cartas, mazo):
 
     return total  
 
-
 def PedirCarta(jugador):
     quiereOtra = input("Queres otra carta?: s/n ")
     if quiereOtra == "s":
@@ -63,8 +62,11 @@ def PedirCarta(jugador):
         pass
 
 
-jugador = ["3♣","4♣"]
-print("antes de pedir: ",jugador)
+jugador = []
+RepatirCartaJugador(jugador)
+print(jugador)
+print(SumaTotal(jugador, mazo))
+
 PedirCarta(jugador)
-print("desdpues de pedir: ",jugador)
+print(jugador)
 print(SumaTotal(jugador, mazo))
