@@ -7,7 +7,7 @@ mazo = {"A♠": 11,"2♠": 2,"3♠": 3,"4♠": 4,"5♠": 5,"6♠": 6,"7♠": 7,"
 
 mazoUsado = mazo.copy() # necesito otro maso diferente, no una referencia al mismo
 
-def RepatirCartaJugador(jugador):
+def RepartirCartas(jugador):
     if not jugador:
         carta1 = random.choice(list(mazoUsado.keys()))
         carta2 = random.choice(list(mazoUsado.keys()))
@@ -36,8 +36,6 @@ def SumaTotal(cartas, mazo):
             resto = [carta for carta in listaValores if not esAz(carta)]
             subTotal = sum(resto)
 
-            if len(aces) == 2:
-                total += 2
             for aces in range(len(aces)):
                 if subTotal + 11 <= 21:
                     subTotal += 11
@@ -59,8 +57,8 @@ def SumaTotal(cartas, mazo):
 def PedirCarta(jugador):
     quiereOtra = input("Queres otra carta?: s/n ")
     if quiereOtra == "s":
-        RepatirCartaJugador(jugador)
-        print("Tus cartas son: ",jugador, " | esto suma: ",SumaTotal(jugador, mazo))
+        RepartirCartas(jugador)
+        print("Tus cartas son: -"," ".join(jugador), "- | esto suma: ",SumaTotal(jugador, mazo))
         
         if not Perdio(jugador):
             PedirCarta(jugador)
@@ -69,7 +67,7 @@ def PedirCarta(jugador):
         return 
         
     else: 
-        print("Te quedate con: ",jugador, " | esto suma: ",SumaTotal(jugador, mazo))
+        print("Te quedate con: -"," ".join(jugador), "- | esto suma: ",SumaTotal(jugador, mazo))
 
 def Perdio(jugador):
     if SumaTotal(jugador,mazo) > 21:
@@ -78,16 +76,42 @@ def BlackJack(jugador):
     if SumaTotal(jugador, mazo) == 21:
         return True
 
+def JuegaCrupier(crupier):
+    total = SumaTotal(crupier,mazo)
+    while total < 17:
+        RepartirCartas(crupier)
+        print("-- La mesa pide carta")
+        total = SumaTotal(crupier,mazo)
+        if total > 21:
+            print("El crupier tiene: -"," ".join(crupier), "- | esto suma",SumaTotal(crupier, mazo))
+            print("LA MESA PIERDE, GANASTE!!!!")
+            break
+        elif total >= 17:
+            print("El crupier se queda con: -"," ".join(crupier), "- | esto suma: ",total,)
+            break
+        else:
+            print("El crupier tiene: -"," ".join(crupier), "- | esto suma",SumaTotal(crupier, mazo))
 
 ##### MAIN
 
-def Jugar(jugador):
+def Jugar(jugador,crupier):
     print("--------- Black Jack --------- ")
-    RepatirCartaJugador(jugador)
+    RepartirCartas(jugador)
+    RepartirCartas(crupier)
     print("Tus cartas son: -"," ".join(jugador), "- | esto suma: ",SumaTotal(jugador, mazo))
+    soloPrimeraCarta = crupier[0] 
+    print("El crupier tiene: -","".join(soloPrimeraCarta), "[?] -")
     if BlackJack(jugador):
         print("¡¡¡ GANASTE !!!")
         return
     PedirCarta(jugador)
+    #### CRUPIER
+    if not Perdio(jugador):
+        print("- Truno del Crupier -")
+        print("El crupier tiene: -"," ".join(crupier), "- | esto suma",SumaTotal(crupier, mazo))
+        JuegaCrupier(crupier)
+    
 
-Jugar([])
+
+jugador,crupier = [],[]
+Jugar(jugador,crupier)
