@@ -1,4 +1,6 @@
 import random
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
 
 mazo = {"A♠": 11,"2♠": 2,"3♠": 3,"4♠": 4,"5♠": 5,"6♠": 6,"7♠": 7,"8♠": 8,"9♠": 9,"10♠": 10,"J♠": 10,"Q♠": 10,"K♠": 10,
         "A♥": 11,"2♥": 2,"3♥": 3,"4♥": 4,"5♥": 5,"6♥": 6,"7♥": 7,"8♥": 8,"9♥": 9,"10♥": 10,"J♥": 10,"Q♥": 10,"K♥": 10,
@@ -63,7 +65,7 @@ def PedirCarta(jugador):
         if not Perdio(jugador):
             PedirCarta(jugador)
         else: 
-            print("--- Perdiste --- :(")
+            print("--- Perdiste :( --- ")
         return 
         
     else: 
@@ -92,6 +94,20 @@ def JuegaCrupier(crupier):
         else:
             print("El crupier tiene: -"," ".join(crupier), "- | esto suma",SumaTotal(crupier, mazo))
 
+
+def QuienGana(jugador,crupier): 
+            
+        totalCrupier = SumaTotal(crupier,mazo)
+        totalJugador = SumaTotal(jugador,mazo)
+
+        if totalCrupier <= 21: 
+            if totalCrupier < totalJugador: 
+                print("GANASTE!!!!")
+            else:
+                print("--- Perdiste :( ---")
+
+
+
 ##### MAIN
 
 def Jugar(jugador,crupier):
@@ -107,9 +123,11 @@ def Jugar(jugador,crupier):
     PedirCarta(jugador)
     #### CRUPIER
     if not Perdio(jugador):
-        print("- Truno del Crupier -")
+        print("\n- Turno del Crupier -")
         print("El crupier tiene: -"," ".join(crupier), "- | esto suma",SumaTotal(crupier, mazo))
         JuegaCrupier(crupier)
+        print("\n")
+        QuienGana(jugador,crupier)
     
 
 
